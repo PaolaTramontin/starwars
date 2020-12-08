@@ -2,25 +2,19 @@
 import React, {useEffect, useState} from 'react'
 //import axios
 import axios from 'axios'
-
-//components:
-import Starships from './Starships'
-
 //Link
 import {Link} from 'react-router-dom'
 
-//route
-import { Route} from 'react-router-dom'
 
 
 
 
 const Home = () => {
 
-    //initial state
+    //initial state, which is empty
     const [starship, setStarship] = useState([])
 
-    //API CALL BELOW. changes the intiial state. The array now has 10 ships
+    //API CALL BELOW. changes the intial state. The array now has 10 ships.
     useEffect(()=>{
         axios.get('https://swapi.dev/api/starships/')
           .then((response) =>{
@@ -32,7 +26,6 @@ const Home = () => {
 
 //Map thru the 10 ships, give each ship an index, a state and a key
         const display = () => {
-            console.log(Link)
             return starship.map((ship, index) => (
                 <div key={ship.name} className="col s12 m6">
                   <div className="card blue-grey darken-1">
@@ -41,6 +34,7 @@ const Home = () => {
                     </div>
                     <div className="card-action">
                         {/* Give each ship, a href "link" that will go to that particular ships page */}
+                        {/* if this is whats passing the state to the child, why arent we calling it ship inside the child? */}
                         <Link to={{pathname: `/Starships/${index}`, state:{ship} }} key={ship.name}> View Ship Info</Link> 
                     </div>
                   </div>
@@ -51,8 +45,11 @@ const Home = () => {
 
         return (
             <div className="container">
-              <h2> Starship</h2>
+              <h2> Starships</h2>
               <div className="row">{starship.length>0?display():null}</div>
+              {/* question mark means true, aka if the starship array has a length of greater than 1, run the display function */}
+              {/* because we rendered the state inside the link, we dont need to render inside the return */}
+                {/* <Starships starship={starship}/> */}
              </div>
           ) 
         }
